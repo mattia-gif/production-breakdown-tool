@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Production Breakdown Tool</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="topbar">
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <span class="brand-wordmark">
+      <span class="brand-ta">TA</span><span class="brand-prod">PROD</span>
+    </span>
+  </div>
+
+  <div class="titleblock">
+    <h1>Production Breakdown Generator</h1>
+    <p class="subtitle">
+      Upload briefs & scripts to generate clean, shareable production breakdowns.
+    </p>
+  </div>
+</header>
+
+        <main>
+            <!-- Upload Section -->
+            <section class="upload-section" id="uploadSection">
+                <div class="upload-zone" id="uploadZone">
+                    <svg class="upload-icon" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    <h2>Drop files here or click to browse</h2>
+                    <p>Upload PDFs, images, Word docs, or text files</p>
+                    <input type="file" id="fileInput" multiple accept=".pdf,.doc,.docx,.txt,.png,.jpg,.jpeg,.gif">
+                </div>
+
+                <div class="file-list" id="fileList"></div>
+
+                <button class="generate-btn" id="generateBtn" disabled>Generate Breakdown</button>
+            </section>
+
+            <!-- Loading Section -->
+            <section class="loading-section hidden" id="loadingSection">
+                <div class="spinner"></div>
+                <p>Analyzing documents and generating breakdown...</p>
+                <p class="loading-detail">This may take 30-60 seconds</p>
+            </section>
+
+            <!-- Results Section -->
+            <section class="results-section hidden" id="resultsSection">
+                <div class="results-header">
+                    <h2>Production Breakdown</h2>
+                    <div class="action-buttons">
+                        <button class="btn-secondary" id="editBtn">Request Revision</button>
+                        <button class="btn-primary" id="downloadBtn">Download Word Doc</button>
+                        <button class="btn-secondary" id="newBreakdownBtn">New Breakdown</button>
+                    </div>
+                </div>
+
+                <div class="breakdown-content" id="breakdownContent"></div>
+
+                <!-- Revision Interface (hidden by default) -->
+                <div class="revision-interface hidden" id="revisionInterface">
+                    <h3>Request Revisions</h3>
+                    <textarea 
+                        id="revisionInput" 
+                        placeholder="Example: 'Add more detail to the talent section' or 'The script mentions 5 shoot days, not 4'"
+                        rows="4"
+                    ></textarea>
+                    <div class="revision-buttons">
+                        <button class="btn-secondary" id="cancelRevisionBtn">Cancel</button>
+                        <button class="btn-primary" id="submitRevisionBtn">Submit</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
