@@ -107,7 +107,7 @@ async function createContentWithFiles(files, message = null) {
     
     // Add uploaded files
     for (const file of files) {
-        const mediaType = getMediaType(file.filename);
+        const mediaType = getMediaType(file.originalname || file.filename);
         
         if (mediaType.startsWith('image/')) {
             const base64Data = await fileToBase64(file.path);
