@@ -23,7 +23,8 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // Middleware
-app.use(express.json());
+app.use(express.json({ limit: "150mb" }));
+app.use(express.urlencoded({ limit: "150mb", extended: true }));
 
 // Serve static frontend files (index.html, styles.css, app.js)
 app.use(express.static(path.join(__dirname)));
