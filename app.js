@@ -101,34 +101,42 @@ function formatFileSize(bytes) {
 
 // Generate Breakdown
 generateBtn.addEventListener('click', async () => {
-    showLoading();
-    
+  showLoading();
+
+  try {
+    const formData = new FormData();
+    uploadedFiles.forEach(file => {
+      formData.append('files', file);
+    });
+
+    const response = await fetch('/api/generate-breakdown', {
+      method: 'POST',
+      body: formData
+    });
+
+    let data = {};
     try {
-        const formData = new FormData();
-        uploadedFiles.forEach(file => {
-            formData.append('files', file);
-        });
-
-        const response = await fetch('/api/generate-breakdown', {
-            method: 'POST',
-            body: formData
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to generate breakdown');
-        }
-
-        const data = await response.json();
-        currentBreakdown = data.breakdown;
-        conversationHistory = data.conversationHistory || [];
-        showResults(data.breakdown);
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Failed to generate breakdown. Please try again.');
-        showUpload();
+      data = await response.json();
+    } catch (e) {
+      // response might not be JSON
     }
-});
 
+    if (!response.ok) {
+      alert(data.error || `Failed to generate breakdown (HTTP ${response.status}).`);
+      showUpload();
+      return;
+    }
+
+    currentBreakdown = data.breakdown;
+    conversationHistory = data.conversationHistory || [];
+    showResults(data.breakdown);
+
+  } catch (error) {
+    console.error('Error:', error);
+    alert(`Unexpected error: ${error.message}`);
+    showUpload();
+  }
+});
 // Revision Handlers
 editBtn.addEventListener('click', () => {
     revisionInterface.classList.remove('hidden');
