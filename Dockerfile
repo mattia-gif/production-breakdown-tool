@@ -1,20 +1,20 @@
-FROM node:20-bullseye
+FROM node:20-slim
 
-Install poppler (pdftoppm) + minimal runtime deps
-
-RUN apt-get update && apt-get install -y –no-install-recommends
-poppler-utils && rm -rf /var/lib/apt/lists/*
+# Install poppler (for pdftoppm)
+RUN apt-get update && apt-get install -y poppler-utils \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-Install node deps first (better caching)
+# Install dependencies first (better caching)
+COPY package*.json ./
+RUN npm install
 
-COPY package*.json ./ RUN npm ci –omit=dev || npm install
-
-Copy app source
-
+# Copy app source
 COPY . .
 
-ENV NODE_ENV=production EXPOSE 3000
+ENV NODE_ENV=production
 
-CMD [“node”, “server.js”]
+EXPOSE 3000
+
+CMD ["node", "server.js"]
